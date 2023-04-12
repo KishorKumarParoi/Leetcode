@@ -3,7 +3,7 @@
 
 // 12-04-23
 #include <bits/stdc++.h>
-
+            
 #define endl "\n"
 #define int long long
 #define sz(s) (int)s.size()
@@ -23,34 +23,19 @@ using namespace std;
 const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
-void solve(){
-  int n, target; cin >> n >> target;
-  vector<int>v(n);
-
-  map<int,int>mp;
-
-  for(int i = 0; i < n; ++i){
-    cin >> v[i];
-    mp[v[i]] = i + 1;
-  }
-
-  vector<int>ans;
-
-  for(int i = 0; i < n; ++i){
-    int find = target - v[i];
-    // d(find) dl(mp[find])
-
-    if(mp[find] > 0 && mp[find] != (i+1)){
-      ans.push_back(i);
-      ans.push_back(mp[find] - 1);
-      break;
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        int cnt = 0;
+        for(int i = 5; i <= n; i*=5){
+            cnt += n / i;
+        }
+        return cnt;
     }
-  }
+};
 
-  // cout << n << target << endl;
-  // print(v)
-
-  print(ans)
+void solve(){
+  
 }
 
 int32_t main(){

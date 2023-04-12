@@ -3,7 +3,7 @@
 
 // 12-04-23
 #include <bits/stdc++.h>
-
+            
 #define endl "\n"
 #define int long long
 #define sz(s) (int)s.size()
@@ -23,34 +23,40 @@ using namespace std;
 const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
-void solve(){
-  int n, target; cin >> n >> target;
-  vector<int>v(n);
 
-  map<int,int>mp;
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& v, int k) {
+        int n = v.size();
+        deque<int>q;
+	vector<int> ans;
 
-  for(int i = 0; i < n; ++i){
-    cin >> v[i];
-    mp[v[i]] = i + 1;
-  }
+	for (int i = 0; i < k; ++i) {
 
-  vector<int>ans;
+		while (!q.empty() and v[q.back()] < v[i])
+			q.pop_back();
 
-  for(int i = 0; i < n; ++i){
-    int find = target - v[i];
-    // d(find) dl(mp[find])
+		q.push_back(i);
+	}
 
-    if(mp[find] > 0 && mp[find] != (i+1)){
-      ans.push_back(i);
-      ans.push_back(mp[find] - 1);
-      break;
+	ans.push_back(v[q.front()]);
+
+	for (int i = k ; i < n; ++i) {
+		if (q.front() == i - k)
+			q.pop_front();
+
+		while (!q.empty() and v[q.back()] < v[i])
+			q.pop_back();
+
+		q.push_back(i);
+		ans.push_back(v[q.front()]);
+	}
+return ans;
     }
-  }
+};
 
-  // cout << n << target << endl;
-  // print(v)
-
-  print(ans)
+void solve(){
+  
 }
 
 int32_t main(){

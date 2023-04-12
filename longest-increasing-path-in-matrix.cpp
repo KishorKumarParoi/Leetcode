@@ -3,7 +3,7 @@
 
 // 12-04-23
 #include <bits/stdc++.h>
-
+            
 #define endl "\n"
 #define int long long
 #define sz(s) (int)s.size()
@@ -23,34 +23,46 @@ using namespace std;
 const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
+
+class Solution {
+public:
+int dp[222][222];
+int dfs(vector<vector<int>>& mat, int prev, int i, int j) {
+	int h = mat.size(), w = mat[0].size();
+
+	if (prev >= mat[i][j]) return 0;
+	// if (i < 0 || j < 0) return 0;
+	// if (i >= h || j >= w) return 0;
+
+	if (dp[i][j]) return dp[i][j];
+
+	int d[10];
+	d[0] = i < h - 1 ? dfs(mat, mat[i][j], i + 1, j) : 0;
+	d[1] = i ? dfs(mat, mat[i][j], i - 1, j) : 0;
+	d[2] = j < w - 1 ? dfs(mat, mat[i][j], i, j + 1) : 0;
+	d[3] = j ? dfs(mat, mat[i][j], i, j - 1) : 0;
+
+	dp[i][j] = max(d[0], max(d[1], max(d[2], d[3]))) + 1;
+	return dp[i][j];
+}
+
+int longestIncreasingPath(vector<vector<int>> &	mat) {
+	int h = mat.size(), w = mat[0].size();
+	int maxlen = 0;
+
+	for (int i = 0; i < h; ++i) {
+		for (int j = 0; j < w; ++j) {
+			maxlen = max(maxlen, dfs(mat, -1, i, j));
+		}
+	}
+
+    return maxlen;
+ } 
+
+};
+
 void solve(){
-  int n, target; cin >> n >> target;
-  vector<int>v(n);
-
-  map<int,int>mp;
-
-  for(int i = 0; i < n; ++i){
-    cin >> v[i];
-    mp[v[i]] = i + 1;
-  }
-
-  vector<int>ans;
-
-  for(int i = 0; i < n; ++i){
-    int find = target - v[i];
-    // d(find) dl(mp[find])
-
-    if(mp[find] > 0 && mp[find] != (i+1)){
-      ans.push_back(i);
-      ans.push_back(mp[find] - 1);
-      break;
-    }
-  }
-
-  // cout << n << target << endl;
-  // print(v)
-
-  print(ans)
+  
 }
 
 int32_t main(){

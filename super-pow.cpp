@@ -3,7 +3,7 @@
 
 // 12-04-23
 #include <bits/stdc++.h>
-
+            
 #define endl "\n"
 #define int long long
 #define sz(s) (int)s.size()
@@ -23,34 +23,61 @@ using namespace std;
 const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
-void solve(){
-  int n, target; cin >> n >> target;
-  vector<int>v(n);
 
-  map<int,int>mp;
+class Solution {
+public:
+ int N  = 1e5 + 9;
+// const int M = 1e9 + 7;
 
-  for(int i = 0; i < n; ++i){
-    cin >> v[i];
-    mp[v[i]] = i + 1;
-  }
+int phi[100009];
+void totient() {
+	for (int i = 1; i < N; i++) phi[i] = i;
+	for (int i = 2; i < N; i++) {
+		if (phi[i] == i) {
+			for (int j = i; j < N; j += i) phi[j] -= phi[j] / i;
+		}
+	}
+}
 
-  vector<int>ans;
+int BinMultiply(int a, int b, int M) {
+	int ans = 0;
+	while (b) {
+		if (b & 1)
+			ans = (ans + a) % M;
+		a = (a + a) % M;
+		b >>= 1;
+	}
+	return ans;
+}
 
-  for(int i = 0; i < n; ++i){
-    int find = target - v[i];
-    // d(find) dl(mp[find])
+int BinExpo(int a, int b, int M) {
+	a %= M;
+	int ans = 1;
+	while (b) {
+		if (b & 1)
+			ans = BinMultiply(ans, a, M) % M;
+		a = BinMultiply(a, a, M) % M;
+		b >>= 1;
+	}
+	return ans;
+}
+    int superPow(int a, vector<int>& b) {
+        totient();
+        int val_b = 0, mul = 1, n = (int)b.size() ;
 
-    if(mp[find] > 0 && mp[find] != (i+1)){
-      ans.push_back(i);
-      ans.push_back(mp[find] - 1);
-      break;
+	for (int i = n - 1; i >= 0; i--) {
+		int pow = BinExpo(10, n - i - 1 , phi[1337]);
+		val_b += pow * b[i];
+		// d(pow) d(val_b)
+		val_b %= phi[1337];
+		// d(val_b) dl(mul)
+	}
+    return BinExpo(a, val_b, 1337);
     }
-  }
+};
 
-  // cout << n << target << endl;
-  // print(v)
-
-  print(ans)
+void solve(){
+  
 }
 
 int32_t main(){

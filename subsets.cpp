@@ -3,7 +3,7 @@
 
 // 12-04-23
 #include <bits/stdc++.h>
-
+            
 #define endl "\n"
 #define int long long
 #define sz(s) (int)s.size()
@@ -23,34 +23,35 @@ using namespace std;
 const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
+class Solution {
+public:
+vector<vector<int>>allsubsets;
+void generate(vector<int>&subset, int i, vector<int>&nums){
+	
+	if(i == (int)nums.size()){
+		allsubsets.push_back(subset);
+		return;
+	}
+	
+	// not choosing current value
+	generate(subset,i+1,nums);
+	
+	//choosing the current value
+	subset.push_back(nums[i]);
+	generate(subset,i+1,nums);
+	subset.pop_back();
+}
+vector<vector<int>> subsets(vector<int>& nums){
+
+    vector<int>subset;
+    generate(subset, 0 , nums);
+    return allsubsets;
+}
+
+};
+
 void solve(){
-  int n, target; cin >> n >> target;
-  vector<int>v(n);
-
-  map<int,int>mp;
-
-  for(int i = 0; i < n; ++i){
-    cin >> v[i];
-    mp[v[i]] = i + 1;
-  }
-
-  vector<int>ans;
-
-  for(int i = 0; i < n; ++i){
-    int find = target - v[i];
-    // d(find) dl(mp[find])
-
-    if(mp[find] > 0 && mp[find] != (i+1)){
-      ans.push_back(i);
-      ans.push_back(mp[find] - 1);
-      break;
-    }
-  }
-
-  // cout << n << target << endl;
-  // print(v)
-
-  print(ans)
+  
 }
 
 int32_t main(){

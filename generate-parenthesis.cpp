@@ -3,7 +3,7 @@
 
 // 12-04-23
 #include <bits/stdc++.h>
-
+            
 #define endl "\n"
 #define int long long
 #define sz(s) (int)s.size()
@@ -23,34 +23,40 @@ using namespace std;
 const int N   = 1e6 + 5;
 const int MOD = 1e9 + 7;
 
-void solve(){
-  int n, target; cin >> n >> target;
-  vector<int>v(n);
 
-  map<int,int>mp;
+class Solution {
+public:
+    vector<string>valid;
 
-  for(int i = 0; i < n; ++i){
-    cin >> v[i];
-    mp[v[i]] = i + 1;
-  }
+void backtrack(string &s, int open, int close) {
 
-  vector<int>ans;
-
-  for(int i = 0; i < n; ++i){
-    int find = target - v[i];
-    // d(find) dl(mp[find])
-
-    if(mp[find] > 0 && mp[find] != (i+1)){
-      ans.push_back(i);
-      ans.push_back(mp[find] - 1);
-      break;
+	if (open == 0 && close == 0) {
+		valid.push_back(s);
+		return ;
+	}
+	if (open > 0) {
+		s.push_back('(');
+		backtrack(s, open - 1, close);
+		s.pop_back();
+	}
+	if (close > 0) {
+		if (open < close) {
+			s.push_back(')');
+			backtrack(s, open, close - 1);
+			s.pop_back();
+		}
+	}
+}
+    vector<string> generateParenthesis(int n) {
+        string s;
+        backtrack(s,n,n);
+        return valid;
     }
-  }
+};
 
-  // cout << n << target << endl;
-  // print(v)
 
-  print(ans)
+void solve(){
+  
 }
 
 int32_t main(){
